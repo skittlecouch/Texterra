@@ -3,12 +3,14 @@
 
 
 
+//imports
 package entities;
 
 import items.Item;
 
 
 
+//utilities
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -50,6 +52,7 @@ public class Monster {
     //METHODS
 // Attack method
     public int attack(int playerDefense) {
+    	
         int damage = this.attack;
 
         // Critical hit calculation
@@ -60,6 +63,7 @@ public class Monster {
 
         // Damage reduction from defense
         damage -= playerDefense;
+        
         if (damage < 1) {
             damage = 1; // Ensure at least 1 damage
         }
@@ -67,21 +71,28 @@ public class Monster {
         return damage;
     }
     
+    
 // Method to determine item drops
     public List<Item> calculateDrops() {
+    	
         List<Item> droppedItems = new ArrayList<>();
+        
         for (int i = 0; i < itemDrops.size(); i++) {
+        	
             if (random.nextDouble() < dropChances.get(i)) {
                 // Add a *copy* of the item to the droppedItems list
                 droppedItems.add(itemDrops.get(i).copy());
             }
+            
         }
+        
         return droppedItems;
+        
     }
 
     
     
-    //HELPER METHODS vvv
+    //HELPER METHODS
     
     //CONSTRUCTORS
     public Monster(String name, boolean isBoss, int level, int health, int attack,
@@ -142,20 +153,23 @@ public class Monster {
     }
     
     public void setHealth(int health) {
-        if(health > 0){
+        if (health > 0) {
             this.health = health;
         } //else do nothing, or throw a new exception, or log an error.
     }
+    
      public void setAttack(int attack) {
-        if(attack > 0){
+        if (attack > 0) {
             this.attack = attack;
         } //else do nothing, or throw a new exception, or log an error.
     }
+     
     public void setDefense(int defense) {
-         if(defense > 0){
+         if (defense > 0) {
             this.defense = defense;
         } //else do nothing, or throw a new exception, or log an error.
     }
+    
     public void setSpeed(int speed) {
         this.speed = speed;
     }
@@ -165,8 +179,9 @@ public class Monster {
             this.critChance = critChance;
         }
     }
+    
     public void setCritPercent(double critPercent) {
-        if(critPercent >= 0.0){
+        if (critPercent >= 0.0) {
             this.critPercent = critPercent;
         } //else do nothing, or throw a new exception, or log an error.
     }
@@ -178,6 +193,7 @@ public class Monster {
     public void setItemDrops(List<Item> itemDrops) {
         this.itemDrops = new ArrayList<>(itemDrops); // Defensive copy
     }
+    
 	public void setDropChances(List<Double> dropChances) {
 		this.dropChances = new ArrayList<>(dropChances); // Defensive copy
     }
@@ -186,6 +202,7 @@ public class Monster {
     
     @Override
     public String toString() {
+    	
         return "Monster{" +
                 "name='" + name + '\'' +
                 ", isBoss=" + isBoss +
@@ -200,5 +217,7 @@ public class Monster {
                 ", xpDrop=" + xpDrop +
                 ", rhinDrop=" + rhinDrop +
                 '}';
+        
     }
-}
+    
+} //end Monster class

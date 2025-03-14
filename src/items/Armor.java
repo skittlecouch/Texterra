@@ -2,6 +2,7 @@
 
 
 
+//imports
 package items;
 
 
@@ -114,7 +115,6 @@ public class Armor extends Item {
         this.value = value;
     }
 
-    
     
     
     // toString for debugging

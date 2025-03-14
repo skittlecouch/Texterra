@@ -2,6 +2,7 @@
 
 
 
+//imports
 package items;
 
 
@@ -30,7 +31,6 @@ public class Food extends Item {
     private double qualityPercentage;
     private int value;
 
-
     public enum ClassRating {
         E, D, C, B, A, S, X, O
     }
@@ -40,12 +40,14 @@ public class Food extends Item {
     //METHODS
     @Override
     public Item copy() {
+    	
         return new Food(getName(), getDescription(), getShelfLife(), getDuration(),
                 getClassRating(), getRegenPercent(), getAttackPercent(),
                 getStrengthPercent(), getDefensePercent(), getMaxHealthPercent(),
                 getSpeedPercent(), getDurabilityPercent(), getDropChancePercent(),
                 getHyperionPercent(), getCritChance(), getCritPercent(),
                 getQualityPercentage(), getValue());
+        
     }
     
     
@@ -126,6 +128,7 @@ public class Food extends Item {
     public void setValue(int value) { if (value >= 0) this.value = value; }
 
 
+    
     //TOSTRING
      @Override
     public String toString() {

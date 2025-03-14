@@ -2,6 +2,7 @@
 
 
 
+//imports
 package screens.ui;
 
 import game.BaseScreenPanel;
@@ -55,9 +56,11 @@ public class WorldSelectScreenPanel extends BaseScreenPanel {
         };
 
         for (String worldName : worldNames) {
+        	
             JButton worldButton = new JButton(worldName);
             worldButton.addActionListener(new WorldButtonListener(worldName, mainFrame));
             centerPanel.add(worldButton);
+            
         }
 
         add(centerPanel, BorderLayout.CENTER);
@@ -82,6 +85,13 @@ public class WorldSelectScreenPanel extends BaseScreenPanel {
     	//VARIABLES
         private String worldName;
         private Texterra mainFrame;
+        
+      //METHODS
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainFrame.getMainScreenPanel().setCurrentWorld(worldName);
+            mainFrame.showScreen(Texterra.MAIN_SCREEN);
+        }
 
         //CONSTRUCTORS
         public WorldButtonListener(String worldName, Texterra mainFrame) {
@@ -89,12 +99,6 @@ public class WorldSelectScreenPanel extends BaseScreenPanel {
             this.mainFrame = mainFrame;
         }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            mainFrame.getMainScreenPanel().setCurrentWorld(worldName);
-            mainFrame.showScreen(Texterra.MAIN_SCREEN);
-        }
-        
     } //end WorldButtonListener subclass
     
 } //end WorldSelectScreenPanel class

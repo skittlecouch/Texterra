@@ -2,6 +2,8 @@
 //NOTE: COPY METHOD????
 
 
+
+//imports
 package items;
 
 
@@ -25,6 +27,8 @@ public abstract class Item {
     public abstract Item copy();
     
     
+    
+    //HELPER METHODS
     
     //CONSTRUCTORS
     public Item(String name, String description) {

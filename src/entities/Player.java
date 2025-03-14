@@ -1,14 +1,29 @@
-// Player.java (in src/entities/)
-package entities;
+//Player class, stores player stats
 
-import java.util.ArrayList;
-import java.util.List;
+
+
+//imports
+package entities;
 
 import items.Item;
 import items.Weapon;
 import items.Armor;
 
+
+
+//utilities
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
 public class Player {
+
+	//VARIABLES
     private String name;
     private int level;
     private int health;
@@ -25,19 +40,54 @@ public class Player {
     private int blacksmithingSkill;
     private int brewingSkill;
     private int farmingSkill;
-    private String currentWorld; // Store the current world ID
+    private String currentWorld; // Store the current world ID, WHAT WORLD THE PLAYER IS CURRENTLY ON! NOT PROGRESSION STUFF
     private Weapon equippedWeapon; // The currently equipped weapon
     private Armor equippedArmor; // The currently equipped armor
     private List<Item> inventory;
 
-     public Player(String name) {
+    
+    
+    //METHODS
+    
+    // Equip and unequip methods
+    public void setEquippedWeapon(Weapon weapon) {
+        this.equippedWeapon = weapon;
+    }
+
+    public void unequipWeapon() {
+        this.equippedWeapon = null;
+    }
+	
+	public void setEquippedArmor(Armor armor) {
+		this.equippedArmor = armor;
+	}
+	
+	public void unequipArmor() {
+		this.equippedArmor = null;
+	}
+
+    // Inventory management
+	public void addItemToInventory(Item item) {
+	    inventory.add(item);
+	}
+
+    public void removeItemFromInventory(Item item) {
+        inventory.remove(item);
+    }
+    
+    
+    
+    //HELPER METHODS
+    
+    //CONSTRUCTORS
+    public Player(String name) {
         this.name = name;
         this.level = 1;           // Starting level
         this.health = 100;       // Starting health
         this.maxHealth = 100;     // Starting max health
         this.xp = 0;             // Starting XP
         this.xpRequirement = 100; // XP needed for level 2
-        this.rhin = 0;           // Starting Rhin
+        this.rhin = 100;           // Starting Rhin
         this.strength = 5;       // Base strength
         this.defense = 5;        // Base defense
         this.speed = 5;        //Base speed
@@ -51,14 +101,18 @@ public class Player {
         this.equippedWeapon = null; // No weapon equipped initially
         this.equippedArmor = null; // No armor equipped initially
         this.inventory = new ArrayList<>();
+        
     }
+    
+    
+    
+    //GETTERS
     public String getCurrentWorld() {
         return currentWorld;
     }
 
-    public void setCurrentWorld(String worldName) {
-        this.currentWorld = worldName;
-    }
+    
+    
 	public int getLevel() {
 		return level;
 	}
@@ -90,27 +144,35 @@ public class Player {
 	public int getStrength() {
         return strength;
     }
+	
     public int getDefense() {
         return defense;
     }
+    
     public int getSpeed(){
         return speed;
     }
+    
     public double getCritChance(){
         return critChance;
     }
+    
     public double getCritPercent(){
         return critPercent;
     }
+    
 	public int getCookingSkill() {
 		return cookingSkill;
 	}
+	
 	public int getBlacksmithingSkill() {
 		return blacksmithingSkill;
 	}
+	
 	public int getBrewingSkill() {
 		return brewingSkill;
 	}
+	
 	public int getFarmingSkill() {
 		return farmingSkill;
 	}
@@ -118,6 +180,7 @@ public class Player {
     public Weapon getEquippedWeapon() {
         return equippedWeapon;
     }
+    
 	public Armor getEquippedArmor(){
 		return equippedArmor;
 	}
@@ -126,7 +189,9 @@ public class Player {
         return inventory;
     }
 
-    // Setter methods to change values:
+    
+    
+    //SETTERS
     public void setHealth(int health) {
         this.health = Math.max(0, Math.min(health, maxHealth));  // Keep within 0-maxHealth
     }
@@ -140,8 +205,7 @@ public class Player {
         this.xp = Math.max(0, xp); // Prevent negative XP
     }
 
-    public void setXpRequirement(int xpNeeded)
-    {
+    public void setXpRequirement(int xpNeeded) {
         xpRequirement = xpNeeded;
     }
 
@@ -152,51 +216,37 @@ public class Player {
     public void setCookingSkill(int cookingSkill) {
         this.cookingSkill = Math.max(0, cookingSkill); // Prevent negative skill
     }
+    
     public void setBlacksmithingSkill(int blacksmithingSkill) {
         this.blacksmithingSkill = Math.max(0, blacksmithingSkill); // Prevent negative skill
-    }    public void setBrewingSkill(int brewingSkill) {
+    }
+    
+    public void setBrewingSkill(int brewingSkill) {
         this.brewingSkill = Math.max(0, brewingSkill); // Prevent negative skill
-    }    public void setFarmingSkill(int farmingSkill) {
+    } 
+    
+    public void setFarmingSkill(int farmingSkill) {
         this.farmingSkill = Math.max(0, farmingSkill); // Prevent negative skill
     }
 
-    // Equip and unequip methods
-    public void setEquippedWeapon(Weapon weapon) {
-        this.equippedWeapon = weapon;
-    }
-
-    public void unequipWeapon() {
-        this.equippedWeapon = null;
-    }
-	
-	public void setEquippedArmor(Armor armor)
-	{
-		this.equippedArmor = armor;
-	}
-	
-	public void unequipArmor()
-	{
-		this.equippedArmor = null;
-	}
-
-    // Inventory management
-	public void addItemToInventory(Item item) {
-	    inventory.add(item);
-	}
-
-    public void removeItemFromInventory(Item item) {
-        inventory.remove(item);
-    }
     public void setLevel(int level){
         this.level = level;
     }
+    
     public void setStrength(int strength){
         this.strength = strength;
     }
+    
     public void setDefense(int defense){
         this.defense = defense;
     }
+    
     public void setSpeed(int speed){
         this.speed = speed;
     }
-}
+    
+    public void setCurrentWorld(String worldName) {
+        this.currentWorld = worldName;
+    }
+    
+} //end Player class

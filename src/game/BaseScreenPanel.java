@@ -2,10 +2,12 @@
 
 
 
+//imports
 package game;
 
 
 
+//utilities
 import javax.swing.*;
 import java.awt.*;
 

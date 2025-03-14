@@ -2,6 +2,7 @@
 
 
 
+//imports
 package items;
 
 
@@ -46,13 +47,16 @@ public class Potion extends Item {
     //METHODS
     @Override
     public Item copy() {
+    	
         return new Potion(getName(), getDescription(), getPotionType(), getDuration(),
                 getRegenPercent(), getAttackPercent(), getStrengthPercent(),
                 getDefensePercent(), getMaxHealthPercent(), getSpeedPercent(),
                 getDurabilityPercent(), getDropChancePercent(), getHyperionPercent(),
                 getCritChancePercent(), getCritPercent(), getQualityPercentage(),
                 getValue());
+        
     }
+    
     
     
     //HELPER METHODS
@@ -81,6 +85,7 @@ public class Potion extends Item {
         this.critPercent = critPercent;
         this.qualityPercentage = qualityPercentage;
         this.value = value;
+        
     }
 
     
@@ -132,8 +137,7 @@ public class Potion extends Item {
 
     //TOSTRING for debugging
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Potion name: " + this.getName() + " Type: " + getPotionType();
     }
     

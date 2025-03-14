@@ -2,6 +2,7 @@
 
 
 
+//imports
 package items;
 
 
@@ -33,17 +34,23 @@ public class Ore extends Item {
     // Implement the copy() method for Ore from Item class
   @Override
   public Item copy() {
+	  
       return new Ore(getName(), getDescription(), getValue(), getSkillRequired(), getAffinity());
+      
   }
     
     
   
+  	//HELPER METHODS
+  
     //CONSTRUCTORS
     public Ore(String name, String description, int value, int skillRequired, Affinity affinity) {
+    	
         super(name, description);
         this.value = value;
         this.skillRequired = skillRequired;
         this.affinity = affinity;
+        
     }
 
     
@@ -60,6 +67,7 @@ public class Ore extends Item {
     public Affinity getAffinity() {
         return affinity;
     }
+    
     public String getOreType(){ 
         return oreType;
     }
@@ -79,6 +87,7 @@ public class Ore extends Item {
     public void setSkillRequired(int skillRequired) {
         this.skillRequired = skillRequired;
     }
+    
     public void setAffinity(Affinity affinity){
         this.affinity = affinity;
     }

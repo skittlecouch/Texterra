@@ -2,6 +2,7 @@
 
 
 
+//imports
 package items;
 
 
@@ -35,8 +36,10 @@ public class Weapon extends Item {
     //METHODS
     @Override
     public Item copy() {
+    	
         return new Weapon(getName(), getDescription(), getStrengthReq(), getWeaponType(),
                 getDamage(), getSpeed(), getDurability(), getQualityPercentage(), getValue());
+        
     }
 
     
@@ -46,6 +49,7 @@ public class Weapon extends Item {
     //CONSTRUCTORS
     public Weapon(String name, String description, int strengthReq, WeaponType weaponType,
                   int damage, int speed, int durability, double qualityPercentage, int value) {
+    	
         super(name, description); // Call the Item constructor
         this.strengthReq = strengthReq;
         this.weaponType = weaponType;
@@ -54,6 +58,7 @@ public class Weapon extends Item {
         this.durability = durability;
         this.qualityPercentage = qualityPercentage;
         this.value = value;
+        
     }
 
     

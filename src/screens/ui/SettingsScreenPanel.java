@@ -2,6 +2,7 @@
 
 
 
+//imports
 package screens.ui;
 
 import game.BaseScreenPanel;
@@ -28,6 +29,10 @@ public class SettingsScreenPanel extends BaseScreenPanel {
 	//VARIABLES
     private DevToolsWindow devToolsWindow; // Keep a reference to the dev tools window
 
+    
+    
+    //HELPER METHODS
+    
     //CONSTRUCTORS
     public SettingsScreenPanel(Texterra mainFrame) {
     	

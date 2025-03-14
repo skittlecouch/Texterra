@@ -2,6 +2,7 @@
 
 
 
+//imports
 package screens.town;
 
 import game.BaseScreenPanel;
@@ -9,6 +10,7 @@ import game.Texterra;
 
 
 
+//utilities
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -34,12 +36,15 @@ public class TownScreenPanel extends BaseScreenPanel {
 
     
     
+    //HELPER METHODS
+    
     //CONSTRUCTORS
     public TownScreenPanel(Texterra mainFrame) {
     	
         super(mainFrame);
         setLayout(new BorderLayout());
 
+        
         // --- Top Panel ---
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         townNameLabel = new JLabel("Generic Town");
@@ -47,6 +52,7 @@ public class TownScreenPanel extends BaseScreenPanel {
         topPanel.add(townNameLabel);
         add(topPanel, BorderLayout.NORTH);
 
+        
         // --- Center Panel ---
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
@@ -75,12 +81,14 @@ public class TownScreenPanel extends BaseScreenPanel {
         centerPanel.add(farmButton);
         add(centerPanel, BorderLayout.CENTER);
 
+        
         // --- Bottom Panel ---
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton backButton = new JButton("Back");
         bottomPanel.add(backButton);
         add(bottomPanel, BorderLayout.SOUTH);
 
+        
         // --- Listeners ---
         backButton.addActionListener(e -> mainFrame.showScreen(Texterra.MAIN_SCREEN));
         shopButton.addActionListener(e -> mainFrame.showScreen(Texterra.SHOP_SCREEN));
@@ -89,7 +97,7 @@ public class TownScreenPanel extends BaseScreenPanel {
         breweryButton.addActionListener(e -> mainFrame.showScreen(Texterra.BREWERY_SCREEN));
         farmButton.addActionListener(e -> mainFrame.showScreen(Texterra.FARM_SCREEN));
         
-    }
+    } //end constructor
 
     
     

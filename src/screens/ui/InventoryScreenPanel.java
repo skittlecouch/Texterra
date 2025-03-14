@@ -2,6 +2,7 @@
 
 
 
+//imports
 package screens.ui;
 
 import game.BaseScreenPanel;
@@ -13,6 +14,7 @@ import items.Weapon;
 
 
 
+//utilities
 import javax.swing.*;
 
 import java.awt.*;
@@ -30,35 +32,6 @@ public class InventoryScreenPanel extends BaseScreenPanel {
 
 	//VARIABLES
     private JPanel inventoryGridPanel;
-
-    
-    
-    //CONSTRUCTORS
-    public InventoryScreenPanel(Texterra mainFrame) {
-    	
-        super(mainFrame);
-        setLayout(new BorderLayout());
-
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel titleLabel = new JLabel("Inventory");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        topPanel.add(titleLabel);
-        add(topPanel, BorderLayout.NORTH);
-
-        inventoryGridPanel = new JPanel();
-        inventoryGridPanel.setLayout(new GridLayout(0, 5, 5, 5));
-        inventoryGridPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(inventoryGridPanel, BorderLayout.CENTER);
-
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> mainFrame.showScreen(Texterra.MAIN_SCREEN));
-        bottomPanel.add(backButton);
-        add(bottomPanel, BorderLayout.SOUTH);
-
-        refreshInventoryDisplay(); // Initial display
-        
-    } //end constructor
 
     
     
@@ -109,20 +82,45 @@ public class InventoryScreenPanel extends BaseScreenPanel {
 
     
     
+    //HELPER METHODS (InventoryScreenPanel class)
+    
+    //CONSTRUCTORS
+    public InventoryScreenPanel(Texterra mainFrame) {
+    	
+        super(mainFrame);
+        setLayout(new BorderLayout());
+
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel titleLabel = new JLabel("Inventory");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        topPanel.add(titleLabel);
+        add(topPanel, BorderLayout.NORTH);
+
+        inventoryGridPanel = new JPanel();
+        inventoryGridPanel.setLayout(new GridLayout(0, 5, 5, 5));
+        inventoryGridPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        add(inventoryGridPanel, BorderLayout.CENTER);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> mainFrame.showScreen(Texterra.MAIN_SCREEN));
+        bottomPanel.add(backButton);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        refreshInventoryDisplay(); // Initial display
+        
+    } //end constructor
+
+    
+    
+    //EXTRAS
+    
     // Inner class to handle Equip button clicks
     private class EquipButtonListener implements ActionListener {
     	
     	//VARIABLES
         private Weapon weapon;
         private Texterra mainFrame;
-
-        //CONSTRUCTORS
-        public EquipButtonListener(Weapon weapon, Texterra mainFrame) {
-        	
-            this.weapon = weapon;
-            this.mainFrame = mainFrame;
-            
-        }
 
         //METHODS
         @Override
@@ -134,6 +132,15 @@ public class InventoryScreenPanel extends BaseScreenPanel {
             
         }
         
-    } //end EquipButtonListener subclass
+        //HELPER METHODS
+        //CONSTRUCTORS
+        public EquipButtonListener(Weapon weapon, Texterra mainFrame) {
+        	
+            this.weapon = weapon;
+            this.mainFrame = mainFrame;
+            
+        }
 
+    } //end EquipButtonListener subclass
+    
 } //end InventoryScreenPanel class

@@ -2,6 +2,7 @@
 
 
 
+//imports
 package game;
 
 import screens.ui.MainScreenPanel;
@@ -11,6 +12,7 @@ import items.Item;
 
 
 
+//utilities
 import javax.swing.*;
 
 import java.awt.*;
@@ -29,34 +31,6 @@ public class DevToolsWindow extends JFrame {
     private JTextArea statsArea;
     private Texterra mainFrame; //keep a reference to the main texterra frame
 
-    
-    
-    //CONSTRUCTORS
-    public DevToolsWindow(Texterra mainFrame) {
-    	
-        this.mainFrame = mainFrame;
-        setTitle("Dev Tools");
-        setSize(400, 600); // Adjust size as needed
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Important: Dispose on close
-
-        statsArea = new JTextArea();
-        statsArea.setEditable(false); // Read-only
-        JScrollPane scrollPane = new JScrollPane(statsArea);
-        add(scrollPane);
-
-        // Add a window listener to handle closing
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                // Optionally add some behavior when the window is closed.
-                // For example, you might want to null out the devToolsWindow
-                // reference in SettingsScreenPanel.  This prevents a memory leak.
-            }
-        });
-        updateStats(); //Update stats upon opening
-        
-    } //end DevToolsWindow() constructor
-    
     
     
     //METHODS
@@ -104,4 +78,35 @@ public class DevToolsWindow extends JFrame {
 
     } //end updateStats() method
     
+    
+    
+    //HELPER METHODS
+    
+    //CONSTRUCTORS
+    public DevToolsWindow(Texterra mainFrame) {
+    	
+        this.mainFrame = mainFrame;
+        setTitle("Dev Tools");
+        setSize(1000, 600); // Adjust size as needed
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Important: Dispose on close
+
+        statsArea = new JTextArea();
+        statsArea.setEditable(false); // Read-only
+        JScrollPane scrollPane = new JScrollPane(statsArea);
+        add(scrollPane);
+
+        // Add a window listener to handle closing
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // Optionally add some behavior when the window is closed.
+                // For example, you might want to null out the devToolsWindow
+                // reference in SettingsScreenPanel.  This prevents a memory leak.
+            }
+        });
+        
+        updateStats(); //Update stats upon opening
+        
+    } //end DevToolsWindow() constructor
+
 } //end DevToolsWindow class

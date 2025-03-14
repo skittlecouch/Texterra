@@ -1,5 +1,19 @@
-// MainScreenPanel.java
+//Main screen of the UI
+
+
+
+//imports
 package screens.ui;
+
+import game.Texterra;
+import game.BaseScreenPanel;
+import game.DevToolsWindow;
+import items.*;
+import entities.Player;
+import screens.ui.InventoryScreenPanel;
+import screens.worlds.floor01plains.Wilds01ScreenPanel;
+
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,16 +21,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import game.Texterra;
-import game.BaseScreenPanel;
-import game.DevToolsWindow; // Import DevToolsWindow.
-import items.*;
-import entities.Player;
-import screens.ui.WildsScreenPanel; // Import WildsScreenPanel
-import screens.ui.InventoryScreenPanel; //inventory panel
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 
 public class MainScreenPanel extends BaseScreenPanel {
+	
+	//VARIABLES
     private JTextArea consoleTextArea;
     //private String currentFloor = "[01]Plains"; //MOVED TO PLAYER CLASS
     private JLabel currentFloorLabel; // Changed variable name
@@ -37,7 +50,110 @@ public class MainScreenPanel extends BaseScreenPanel {
     private DevToolsWindow devToolsWindow; // Keep reference for the dev tools
 
 
+
+    //METHODS
+    public void appendToConsole(String text) {
+    	
+        consoleTextArea.append(text + "\n");
+        consoleTextArea.setCaretPosition(consoleTextArea.getDocument().getLength());
+        
+    }
+    
+     public void refreshInventoryScreen() {
+    	 
+        // Find the InventoryScreenPanel by its TYPE (more robust)
+        Component[] components = getMainFrame().getCardPanel().getComponents();
+        
+        for (Component component : components) {
+        	
+            if (component instanceof InventoryScreenPanel) {
+                ((InventoryScreenPanel) component).refreshInventoryDisplay();
+                return;
+            }
+            
+        }
+        
+    }
+
+    // --- Equip/Unequip ---
+    public void equipWeapon(Weapon weapon) {
+    	
+        if (this.player.getEquippedWeapon() != null) {
+            unequipWeapon();
+        }
+        
+        this.player.setEquippedWeapon(weapon);
+        player.removeItemFromInventory(weapon);
+        equippedWeaponLabel.setText("Equipped Weapon: " + weapon.getName());
+        appendToConsole("Equipped " + weapon.getName());
+        refreshDevTools();
+        
+    }
+
+    public void unequipWeapon() {
+    	
+        if (player.getEquippedWeapon() != null) {
+        	
+            player.addItemToInventory(player.getEquippedWeapon());
+            player.setEquippedWeapon(null);
+            equippedWeaponLabel.setText("Equipped Weapon: None");
+            appendToConsole("Unequipped weapon.");
+            refreshDevTools();
+            
+        }
+        
+    }
+    
+    public void equipArmor(Armor armor) {
+    	
+		player.setEquippedArmor(armor);
+		
+		if(armor != null) {
+			equippedArmorLabel.setText("Equipped Armor: " + player.getEquippedArmor().getName());
+		} else {
+			equippedArmorLabel.setText("Equipped Armor: None");
+		}
+		
+		refreshDevTools();
+		
+	}
+	
+	    public void unequipArmor() {
+	    	
+        if (player.getEquippedArmor() != null) {
+            player.addItemToInventory(player.getEquippedArmor());
+            player.setEquippedArmor(null);
+            equippedWeaponLabel.setText("Equipped Armor: None");
+            appendToConsole("Unequipped Armor.");
+            refreshDevTools();
+        }
+        
+    }
+    
+    
+    //add this to your main screen panel class
+    public void refreshDevTools() {
+    	
+        if (devToolsWindow != null && devToolsWindow.isVisible()) {
+            devToolsWindow.updateStats();
+        }
+        
+    }
+    
+    public void addItemToInventory(Item item) {
+    	
+        player.addItemToInventory(item);
+        refreshDevTools();
+        
+    }
+
+    
+    
+    //HELPER METHODS
+    
+    //CONSTRUCTORS
     public MainScreenPanel(Texterra mainFrame) {
+    	
         super(mainFrame);
         setLayout(new BorderLayout());
 
@@ -100,7 +216,6 @@ public class MainScreenPanel extends BaseScreenPanel {
         statsPanel.add(equippedWeaponLabel); // Add to the UI
         statsPanel.add(equippedArmorLabel);
 
-
         JPanel inventoryButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton inventoryButton = new JButton("Inventory");
         inventoryButtonPanel.add(inventoryButton);
@@ -108,6 +223,7 @@ public class MainScreenPanel extends BaseScreenPanel {
         leftPanel.add(statsPanel, BorderLayout.NORTH);
         leftPanel.add(inventoryButtonPanel, BorderLayout.SOUTH);
 
+        
         // --- Top Panel ---
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
@@ -119,6 +235,7 @@ public class MainScreenPanel extends BaseScreenPanel {
         topPanel.add(currentFloorLabel);
         topPanel.add(floorSelectButton);
 
+        
         // --- Center Panel ---
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
@@ -134,6 +251,7 @@ public class MainScreenPanel extends BaseScreenPanel {
         centerPanel.add(Box.createVerticalStrut(10));
         centerPanel.add(wildsButton);
 
+        
         // --- Right Panel ---
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -144,6 +262,7 @@ public class MainScreenPanel extends BaseScreenPanel {
 
         rightPanel.add(scrollPane, BorderLayout.CENTER);
 
+        
         // --- Bottom Panel ---
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -156,35 +275,40 @@ public class MainScreenPanel extends BaseScreenPanel {
 
         add(bottomPanel, BorderLayout.SOUTH);
 
+        
         // --- Add Panels ---
         add(leftPanel, BorderLayout.WEST);
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
         add(rightPanel, BorderLayout.EAST);
 
+        
         // --- Listeners ---
         inventoryButton.addActionListener(e -> {
             getMainFrame().showScreen(Texterra.INVENTORY_SCREEN);
             refreshInventoryScreen(); // Refresh inventory display
         });
+        
         townButton.addActionListener(e -> getMainFrame().showScreen(Texterra.TOWN_SCREEN));
+        
         floorSelectButton.addActionListener(e -> getMainFrame().showScreen(Texterra.WORLD_SELECT_SCREEN)); // Changed
+        
         wildsButton.addActionListener(e -> {
-            getMainFrame().showScreen(Texterra.WILDS_SCREEN);
+            getMainFrame().showScreen(Texterra.WILDS01_SCREEN);
             player.setCurrentWorld("[01]Plains"); //Sets the floor.  IMPORTANT
             // Show the correct world panel based on player's current world
             //  BETTER WAY: Find by type
             Component[] components = getMainFrame().getCardPanel().getComponents();
             for (Component component : components) {
-                if (component instanceof WildsScreenPanel) {
-                    ((WildsScreenPanel) component).showWorld(player.getCurrentWorld()); // Show the correct world, using player's state
+                if (component instanceof Wilds01ScreenPanel) {
+                    ((Wilds01ScreenPanel) component).showWorld(player.getCurrentWorld()); // Show the correct world, using player's state
                     return;
                 }
             }
         });
 
-
         settingsButton.addActionListener(e -> getMainFrame().showScreen(Texterra.SETTINGS_SCREEN));
+        
         quitButton.addActionListener(e -> {
             int result = JOptionPane.showConfirmDialog(getMainFrame(), "Do you want to save before quitting?", "Quit Game", JOptionPane.YES_NO_CANCEL_OPTION);
             if (result == JOptionPane.YES_OPTION) {
@@ -196,58 +320,9 @@ public class MainScreenPanel extends BaseScreenPanel {
         });
     }
 
-    // --- Delegate Methods to Player Object ---
-
-    public void setHealth(int health) {
-        player.setHealth(health);
-        healthLabel.setText("Health: " + player.getHealth() + " / " + player.getMaxHealth());
-        refreshDevTools(); //refresh dev tools
-    }
-    public void setMaxHealth(int maxHealth) {
-        player.setMaxHealth(maxHealth);
-        healthLabel.setText("Health: " + player.getHealth() + " / " + player.getMaxHealth());
-        refreshDevTools();
-    }
-
-    public void setXP(int xp) {
-        player.setXP(xp);
-        xpLabel.setText("XP: " + player.getXP() + " / " + player.getXpRequirement());
-        refreshDevTools();
-    }
-
-    public void setXpNeeded(int xpNeeded)
-    {
-        player.setXpRequirement(xpNeeded);
-        xpLabel.setText("XP: " + player.getXP() + " / " + player.getXpRequirement());
-        refreshDevTools();
-    }
-
-    public void setRhin(int rhin) {
-        player.setRhin(rhin);
-        rhinLabel.setText("Rhin: " + player.getRhin());
-        refreshDevTools();
-    }
-
-    public void setCookingSkill(int cookingSkill) {
-        player.setCookingSkill(cookingSkill);
-        cookingSkillLabel.setText("Cooking Skill: " + player.getCookingSkill());
-        refreshDevTools();
-    }
-    public void setBlacksmithingSkill(int blacksmithingSkill) {
-        player.setBlacksmithingSkill(blacksmithingSkill);
-        blacksmithingSkillLabel.setText("Blacksmithing Skill: " + player.getBlacksmithingSkill());
-        refreshDevTools();
-    }    public void setBrewingSkill(int brewingSkill) {
-        player.setBrewingSkill(brewingSkill);
-        brewingSkillLabel.setText("Brewing Skill: " + player.getBrewingSkill());
-        refreshDevTools();
-    }    public void setFarmingSkill(int farmingSkill) {
-        player.setFarmingSkill(farmingSkill);
-        farmingSkillLabel.setText("Farming Skill: " + player.getFarmingSkill());
-        refreshDevTools();
-    }
-
-    // Getters that delegate to the Player object
+    
+    
+    //GETTERS
     public int getHealth() { return player.getHealth(); }
     public int getMaxHealth() { return player.getMaxHealth(); }
     public int getXP() { return player.getXP(); }
@@ -267,90 +342,81 @@ public class MainScreenPanel extends BaseScreenPanel {
     public Weapon getEquippedWeapon() { return player.getEquippedWeapon(); }
     public Armor getEquippedArmor() {return player.getEquippedArmor();} //added
     public List<Item> getInventory() { return player.getInventory(); }
+    
+    public String getCurrentWorld(){
+        return player.getCurrentWorld();
+    }
+    
+    
+    
+    //SETTERS
+    public void setHealth(int health) {
+        player.setHealth(health);
+        healthLabel.setText("Health: " + player.getHealth() + " / " + player.getMaxHealth());
+        refreshDevTools(); //refresh dev tools
+    }
+    
+    public void setMaxHealth(int maxHealth) {
+        player.setMaxHealth(maxHealth);
+        healthLabel.setText("Health: " + player.getHealth() + " / " + player.getMaxHealth());
+        refreshDevTools();
+    }
 
-    public void setCurrentWorld (String currentFloor){
+    public void setXP(int xp) {
+        player.setXP(xp);
+        xpLabel.setText("XP: " + player.getXP() + " / " + player.getXpRequirement());
+        refreshDevTools();
+    }
+
+    public void setXpNeeded(int xpNeeded) {
+        player.setXpRequirement(xpNeeded);
+        xpLabel.setText("XP: " + player.getXP() + " / " + player.getXpRequirement());
+        refreshDevTools();
+    }
+
+    public void setRhin(int rhin) {
+        player.setRhin(rhin);
+        rhinLabel.setText("Rhin: " + player.getRhin());
+        refreshDevTools();
+    }
+
+    public void setCookingSkill(int cookingSkill) {
+        player.setCookingSkill(cookingSkill);
+        cookingSkillLabel.setText("Cooking Skill: " + player.getCookingSkill());
+        refreshDevTools();
+    }
+    
+    public void setBlacksmithingSkill(int blacksmithingSkill) {
+        player.setBlacksmithingSkill(blacksmithingSkill);
+        blacksmithingSkillLabel.setText("Blacksmithing Skill: " + player.getBlacksmithingSkill());
+        refreshDevTools();
+    }
+    
+    public void setBrewingSkill(int brewingSkill) {
+        player.setBrewingSkill(brewingSkill);
+        brewingSkillLabel.setText("Brewing Skill: " + player.getBrewingSkill());
+        refreshDevTools();
+    }
+    
+    public void setFarmingSkill(int farmingSkill) {
+        player.setFarmingSkill(farmingSkill);
+        farmingSkillLabel.setText("Farming Skill: " + player.getFarmingSkill());
+        refreshDevTools();
+    }
+
+    public void setCurrentWorld (String currentFloor) {
         player.setCurrentWorld(currentFloor);
         currentFloorLabel.setText("Current Floor: " + player.getCurrentWorld());
         refreshDevTools();
     }
-    public String getCurrentWorld(){
-        return player.getCurrentWorld();
-    }
+   
 
 
-    public void appendToConsole(String text) {
-        consoleTextArea.append(text + "\n");
-        consoleTextArea.setCaretPosition(consoleTextArea.getDocument().getLength());
-    }
-     public void refreshInventoryScreen() {
-        // Find the InventoryScreenPanel by its TYPE (more robust)
-        Component[] components = getMainFrame().getCardPanel().getComponents();
-        for (Component component : components) {
-            if (component instanceof InventoryScreenPanel) {
-                ((InventoryScreenPanel) component).refreshInventoryDisplay();
-                return;
-            }
-        }
-    }
-     
-
-    // --- Equip/Unequip ---
-    public void equipWeapon(Weapon weapon) {
-        if (this.player.getEquippedWeapon() != null) {
-            unequipWeapon();
-        }
-        this.player.setEquippedWeapon(weapon);
-        player.removeItemFromInventory(weapon);
-        equippedWeaponLabel.setText("Equipped Weapon: " + weapon.getName());
-        appendToConsole("Equipped " + weapon.getName());
-        refreshDevTools();
-    }
-
-
-    public void unequipWeapon() {
-        if (player.getEquippedWeapon() != null) {
-            player.addItemToInventory(player.getEquippedWeapon());
-            player.setEquippedWeapon(null);
-            equippedWeaponLabel.setText("Equipped Weapon: None");
-            appendToConsole("Unequipped weapon.");
-            refreshDevTools();
-        }
-    }
-    //add this to your main screen panel class
-    public void refreshDevTools() {
-        if (devToolsWindow != null && devToolsWindow.isVisible()) {
-            devToolsWindow.updateStats();
-        }
-    }
     
-    public void addItemToInventory(Item item) {
-        player.addItemToInventory(item);
-        refreshDevTools();
-    }
 
     // Setter for DevToolsWindow
     public void setDevToolsWindow(DevToolsWindow devToolsWindow) {
         this.devToolsWindow = devToolsWindow;
     }
-	public void setEquippedArmor(Armor armor)
-	{
-		player.setEquippedArmor(armor);
-		if(armor != null)
-		{
-			equippedArmorLabel.setText("Equipped Armor: " + player.getEquippedArmor().getName());
-		} else {
-			equippedArmorLabel.setText("Equipped Armor: None");
-		}
-		refreshDevTools();
-	}
 	
-	    public void unequipArmor() {
-        if (player.getEquippedArmor() != null) {
-            player.addItemToInventory(player.getEquippedArmor());
-            player.setEquippedArmor(null);
-            equippedWeaponLabel.setText("Equipped Armor: None");
-            appendToConsole("Unequipped Armor.");
-            refreshDevTools();
-        }
-    }
 }

@@ -3,6 +3,7 @@
 
 
 
+//imports
 package screens.town;
 
 import game.BaseScreenPanel;
@@ -10,6 +11,7 @@ import game.Texterra;
 
 
 
+//utilities
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
